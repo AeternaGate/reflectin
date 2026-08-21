@@ -1,0 +1,34 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #0b0b0d;
+  --color-panel: #151518;
+  --color-panel2: #222227;
+  --color-accent: #b4ff5a;
+  --color-ink: #ffffff;
+  --color-muted: #8a8a92;
+}
+
+html, body, #root { height: 100%; }
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ponytail: lightweight Beams analogue via animated gradients; swap for @react-bits/beams-js-css if richer motion wanted */
+@keyframes drift {
+  0%   { transform: translate3d(0, 0, 0) rotate(0deg); }
+  50%  { transform: translate3d(2%, -2%, 0) rotate(8deg); }
+  100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+}
+.beams { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.beams span {
+  position: absolute; top: -20%; left: -10%; width: 55%; height: 140%;
+  background: linear-gradient(90deg, transparent, rgba(180, 255, 90, 0.06), transparent);
+  filter: blur(40px); transform-origin: center; animation: drift 18s ease-in-out infinite;
+}
+.beams span:nth-child(2) { left: 30%; animation-duration: 24s; opacity: .7; }
+.beams span:nth-child(3) { left: 62%; animation-duration: 30s; opacity: .5; }

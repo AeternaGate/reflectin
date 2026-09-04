@@ -1,29 +1,32 @@
 # Reflectin
 
-Telegram-бот + Mini App для автономного ведения Telegram-каналов: генерация
-контента, черновики, контент-план, задачи-exeкутции, аналитика и тарифы.
+Telegram-бот + Mini App для контент-инжиниринга каналов: анализ статистики, механики удержания, модель-драйв, авто-ротация и мониторинг каналов.
 
-## Этапы
+## Особенности
 
-- **Этап 0 — Фундамент**: хостинг Supabase (Postgres + Edge Functions),
-  webhook-бот на grammY, авторизация Mini App по initData, модель данных,
-  роутинг.
-- **Этап 1 — Генерация контента**: генератор «пост из идеи» по 4 рубрикам,
-  черновики, квоты, Mini App (дизайн v4: монохромный фон, логотип `#`,
-  стартовый экран с лесенкой табов, акцент #b4ff5a).
+- **Статистика и аналитика** — агрегация и анализ метрик каналов.
+- **Upsell-цепочки** — работа с механиками удержания аудитории.
+- **Mini App** — интерфейс в Telegram (v4: голосовые сообщения, разметка `#`, многоуровневое меню, фирменный акцент `#b4ff5a`).
+- **Авто-ротация и мониторинг** каналов.
 
-План: `docs/superpowers/plans/2026-08-20-stage-0-1.md`
+## Стек
+
+- **Supabase** — Postgres + Edge Functions (`api`, `telegram-bot`, `scheduler`).
+- **grammY** — Telegram Bot API.
+- **Mini App** — Vite + TypeScript (веб-интерфейс в `webapp/`).
+
+## Требования
+
+- Deno 2+ (для Edge Functions) и Node 20+ (для webapp).
 
 ## Локальная разработка
 
-Требуется Deno 2+ и Node 20+.
-
 ```powershell
-# тесты edge-функций (папка supabase)
+# Тесты Edge Functions (из корня supabase)
 cd supabase
 deno test
 
-# фронтенд (папка webapp)
+# Мини-апп
 cd webapp
 npm install
 npm run dev
@@ -31,15 +34,14 @@ npm run dev
 
 ## Конфигурация
 
-Скопируйте `.env.example` в `.env` в корне supabase (`supabase/.env`) и
-заполните секреты. Скрипты, мета-скрипты и функции читают его.
+Скопируйте `.env.example` в `.env`, а для Supabase — в `supabase/.env`, и заполните переменные. Убедитесь, что колонки таблиц и роли не противоречат друг другу.
 
 ## Деплой
 
 ```powershell
 cd supabase
 supabase link --project-ref <ref>
-supabase db push                  # миграция
+supabase db push                  # миграции
 supabase functions deploy telegram-bot api --no-verify-jwt
-# затем настроить webhook и кнопку меню (см. scripts/)
+# Дальше дёрните webhook через скрипты из scripts/
 ```
